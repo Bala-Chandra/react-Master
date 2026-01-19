@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers, setSearch, selectFilteredUsers } from '../features/users/usersSlice';
 import UserList from '../components/UserList';
 import UserDetails from '../components/UserDetails';
 
 export default function Users() {
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [search, setSearch] = useState('');
+  const dispatch = useDispatch();
+  const users = useSelector(selectFilteredUsers);
+  const { status, error, search } = useSelector(state => state.users);
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(res => res.json())
-      .then(data => setUsers(data));
-  }, []);
+    if (status === 'idle') {
+      dispatch(fetchUsers());
+    }
+  }, [status, dispatch]);
 
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(search.toLowerCase())
-  );
+  if (status === 'loading') return <p>Loading users...</p>;
+  if (status === 'failed') return <p>Error: {error}</p>;
 
   return (
     <>
@@ -24,16 +25,14 @@ export default function Users() {
       <input
         placeholder="Search users"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => dispatch(setSearch(e.target.value))}
       />
 
       <div style={{ display: 'flex', gap: '20px' }}>
-        <UserList
-          users={filteredUsers}
-          onSelect={setSelectedUser}
-        />
-        <UserDetails user={selectedUser} />
+        <UserList users={users} />
+        <UserDetails />
       </div>
     </>
   );
 }
+

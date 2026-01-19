@@ -1,11 +1,16 @@
-export default function UserList({ users, onSelect }) {
+import { useDispatch } from 'react-redux';
+import { selectUser } from '../features/users/usersSlice';
+
+export default function UserList({ users }) {
+  const dispatch = useDispatch();
+
   return (
     <ul>
       {users.map(user => (
         <li
           key={user.id}
           style={{ cursor: 'pointer' }}
-          onClick={() => onSelect(user)}
+          onClick={() => dispatch(selectUser(user))}
         >
           {user.name}
         </li>

@@ -1,4 +1,8 @@
-export default function UserDetails({ user }) {
+import { useSelector } from 'react-redux';
+
+export default function UserDetails() {
+  const user = useSelector(state => state.users.selectedUser);
+
   if (!user) {
     return <p>Select a user</p>;
   }
