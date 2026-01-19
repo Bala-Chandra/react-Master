@@ -7,6 +7,10 @@ export default function UserDetails() {
     return <p>Select a user</p>;
   }
 
+//  if (user && user.name === 'Leanne Graham') {
+//     throw new Error('Render phase crash');
+//   }
+
   return (
     <div>
       <h3>{user.name}</h3>
