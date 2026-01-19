@@ -5,6 +5,8 @@ import { useUsers } from '../hooks/useUsers';
 export default function Users() {
   const { users, status, error, search, setSearch } = useUsers();
 
+  
+
   if (status === 'loading') return <p>Loading users...</p>;
   if (status === 'failed') return <p>Error: {error}</p>;
 

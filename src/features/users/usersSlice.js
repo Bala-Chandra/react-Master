@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSelector } from '@reduxjs/toolkit';
+
 
 export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
@@ -44,10 +46,13 @@ const usersSlice = createSlice({
 export const { selectUser, setSearch } = usersSlice.actions;
 export default usersSlice.reducer;
 
-export const selectFilteredUsers = (state) => {
-  const { list, search } = state.users;
 
-  return list.filter(user =>
-    user.name.toLowerCase().includes(search.toLowerCase())
-  );
-};
+export const selectFilteredUsers = createSelector(
+  [(state) => state.users.list, (state) => state.users.search],
+  (list, search) => {
+    console.log('Memoized filter running...');
+    return list.filter(user =>
+      user.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+);

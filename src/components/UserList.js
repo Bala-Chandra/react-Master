@@ -1,16 +1,19 @@
+import { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { selectUser } from '../features/users/usersSlice';
 
-export default function UserList({ users }) {
+function UserList({ users }) {
   const dispatch = useDispatch();
+
+  console.log('UserList rendered');
 
   return (
     <ul>
       {users.map(user => (
         <li
           key={user.id}
-          style={{ cursor: 'pointer' }}
           onClick={() => dispatch(selectUser(user))}
+          style={{ cursor: 'pointer' }}
         >
           {user.name}
         </li>
@@ -18,3 +21,5 @@ export default function UserList({ users }) {
     </ul>
   );
 }
+
+export default memo(UserList);
