@@ -50,7 +50,6 @@ export default usersSlice.reducer;
 export const selectFilteredUsers = createSelector(
   [(state) => state.users.list, (state) => state.users.search],
   (list, search) => {
-    console.log('Memoized filter running...');
     return list.filter(user =>
       user.name.toLowerCase().includes(search.toLowerCase())
     );

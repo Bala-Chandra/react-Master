@@ -5,7 +5,6 @@ import { selectUser } from '../features/users/usersSlice';
 function UserList({ users }) {
   const dispatch = useDispatch();
 
-  console.log('UserList rendered');
 
   return (
     <ul>
